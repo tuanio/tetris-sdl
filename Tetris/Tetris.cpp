@@ -350,12 +350,14 @@ bool Tetris::gameplay()
 		bool full = true;
 		for (int i = 0; i < Lines; i++) {
 			bool foo = false;
-			if (j > 0) foo |= field[i][j - 1];
-			foo |= field[i][j];
-			if (j < Cols - 1) foo |= field[i][j + 1];
+			for (int k = -2; k <= 2; k++) {
+				int dy = j + k;
+				if (dy >= 0 && dy < Cols)
+					foo |= field[i][dy];
+			}
 			full &= foo;
-			// với mỗi hàng, check 3 thằng liền kề nhau xem có gạch hay không
-			// nếu mỗi hàng có từ 1 đến 3 gạch, và liên tục như vậy đến tất cả hàng
+			// với mỗi hàng, check 5 thằng liền kề nhau xem có gạch hay không
+			// nếu mỗi hàng có từ 1 đến 5 gạch, và liên tục như vậy đến tất cả hàng
 			// thì game kết thúc
 		}
 		gameover |= full;
