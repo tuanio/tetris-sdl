@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include "Tetris.h"
+#include <string>
 
 using namespace std;
 /*
@@ -16,44 +17,112 @@ const int Tetris::figures[7][4] =
 	1,4,5,6,	// T
 	0,1,5,6,	// Z
 };
-bool Tetris::init(const char* title)
+bool Tetris::init()
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
 		initMusic("music.flac");
-		playMusic();
+		//playMusic();
 
-		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
-		window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, ScreenW, ScreenH, SDL_WINDOW_SHOWN);
-		if (window != NULL)
-		{
-			render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-			if (render != NULL)
-			{
-				SDL_SetRenderDrawColor(render, 255, 255, 255, 255);
-				int imgFlags = IMG_INIT_PNG;
-				int initted = IMG_Init(imgFlags);
-				if ((initted & imgFlags) != imgFlags)
-					std::cout << "Failed to init required png support\n" << "IMG_Init() Error : " << IMG_GetError() << std::endl;
-				SDL_Surface* loadSurf = IMG_Load("img/background.png");
-				background = SDL_CreateTextureFromSurface(render, loadSurf);
-				SDL_FreeSurface(loadSurf);
-				loadSurf = IMG_Load("img/blocks.png");
-				blocks = SDL_CreateTextureFromSurface(render, loadSurf);
-				SDL_FreeSurface(loadSurf);
-				nextTetrimino();
-			}
-			else
-				return (running = false);
+		if (TTF_Init() == -1) {
+			cout << "There's an error when init TTF" << endl;
 		}
-		else
-			return (running = false);
-	}
+		font = TTF_OpenFont("fonts/consolas.ttf", 25);
+		if (font == NULL) {
+			cout << "There's an error when load font" << endl;
+		}
+
+		text.SetColor(Text::WHITE_TEXT);
+
+		initHome();
+}
 	else
 		return (running = false);
 
 	running = true;
 	return true;
+}
+
+void Tetris::initHome() {
+	currentScreen = HomeScreen;
+
+	string titleStr = "Home page";
+	const char* title = titleStr.c_str();
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+	window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, ScreenW, ScreenH, SDL_WINDOW_SHOWN);
+	render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_SetRenderDrawColor(render, 255, 255, 255, 255);
+	int imgFlags = IMG_INIT_JPG;
+	int initted = IMG_Init(imgFlags);
+	if ((initted & imgFlags) != imgFlags)
+		std::cout << "Failed to init required png support\n" << "IMG_Init() Error : " << IMG_GetError() << std::endl;
+	SDL_Surface* loadSurf = IMG_Load("img/hello.jpg");
+	background = SDL_CreateTextureFromSurface(render, loadSurf);
+	SDL_FreeSurface(loadSurf);
+}
+
+void Tetris::initHelp() {
+	currentScreen = HelpScreen;
+
+	string titleStr = "Help page";
+	const char* title = titleStr.c_str();
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+	window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, ScreenW, ScreenH, SDL_WINDOW_SHOWN);
+	render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_SetRenderDrawColor(render, 255, 255, 255, 255);
+	int imgFlags = IMG_INIT_JPG;
+	int initted = IMG_Init(imgFlags);
+	if ((initted & imgFlags) != imgFlags)
+		std::cout << "Failed to init required png support\n" << "IMG_Init() Error : " << IMG_GetError() << std::endl;
+	SDL_Surface* loadSurf = IMG_Load("img/help.jpg");
+	background = SDL_CreateTextureFromSurface(render, loadSurf);
+	SDL_FreeSurface(loadSurf);
+}
+
+void Tetris::initResultScreen() {
+	currentScreen = ResultScreen;
+
+	string titleStr = "Result page";
+	const char* title = titleStr.c_str();
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+	window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, ScreenW, ScreenH, SDL_WINDOW_SHOWN);
+	render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_SetRenderDrawColor(render, 255, 255, 255, 255);
+	int imgFlags = IMG_INIT_JPG;
+	int initted = IMG_Init(imgFlags);
+	if ((initted & imgFlags) != imgFlags)
+		std::cout << "Failed to init required png support\n" << "IMG_Init() Error : " << IMG_GetError() << std::endl;
+	SDL_Surface* loadSurf = IMG_Load("img/end.jpg");
+	background = SDL_CreateTextureFromSurface(render, loadSurf);
+	SDL_FreeSurface(loadSurf);
+
+	string str_val = to_string(score);
+	text.SetText(str_val);
+	text.LoadFromRenderText(font, render);
+	xp = 105;
+	yp = 260;
+}
+
+void Tetris::initGamePlay() {
+	currentScreen = GameScreen;
+
+	string titleStr = "Game play";
+	const char* title = titleStr.c_str();
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+	window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, ScreenW, ScreenH, SDL_WINDOW_SHOWN);
+	render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_SetRenderDrawColor(render, 255, 255, 255, 255);
+	int imgFlags = IMG_INIT_PNG;
+	int initted = IMG_Init(imgFlags);
+	if ((initted & imgFlags) != imgFlags)
+		std::cout << "Failed to init required png support\n" << "IMG_Init() Error : " << IMG_GetError() << std::endl;
+	SDL_Surface* loadSurf = IMG_Load("img/background.png");
+	background = SDL_CreateTextureFromSurface(render, loadSurf);
+	SDL_FreeSurface(loadSurf);
+	loadSurf = IMG_Load("img/blocks.png");
+	blocks = SDL_CreateTextureFromSurface(render, loadSurf);
+	SDL_FreeSurface(loadSurf);
+	nextTetrimino();
 }
 
 void Tetris::initMusic(const char* filepath) {
@@ -83,7 +152,7 @@ void Tetris::nextTetrimino()
 	}
 }
 
-void Tetris::handleEvents()
+int Tetris::handleEvents()
 {
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
@@ -113,13 +182,75 @@ void Tetris::handleEvents()
 			default:
 				break;
 			}
-		default:
+		case SDL_MOUSEBUTTONDOWN:
+			int x = e.button.x;
+			int y = e.button.y;
+			switch (currentScreen) {
+			case HomeScreen:
+				if (x >= 103 && x <= 151 && y >= 234 && y <= 247) {
+					SDL_DestroyWindow(window);
+					initGamePlay();
+					return 1;
+				}
+				else if (x >= 117 && x <= 181 && y >= 280 && y <= 290) {
+					SDL_DestroyWindow(window);
+					initHelp();
+					return 2;
+				}
+				else if (x >= 101 && x <= 201 && y >= 318 && y <= 329) {
+					running = false;
+					return 3;
+				}
+				break;
+			case HelpScreen:
+				if (x >= 92 && x <= 203 && y >= 371 && y <= 428) {
+					SDL_DestroyWindow(window);
+					initHome();
+				}
+				break;
+			case ResultScreen:
+				if (x >= 90 && x <= 204 && y >= 306 && y <= 326) {
+					// reset
+					score = 0;
+					dx = 0;
+					color = 1;
+					rotate = false;
+					for (int i = 0; i < Lines; i++) {
+						for (int j = 0; j < Cols; j++) {
+							field[i][j] = 0;
+						}
+					}
+					for (int i = 0; i < 4; i++) {
+						items[i].x = 0;
+						items[i].y = 0;
+						backup[i].x = 0;
+						backup[i].y = 0;
+					}
+
+					SDL_DestroyWindow(window);
+					initGamePlay();
+
+					return 1;
+				}
+				else if (x >= 111 && x <= 181 && y >= 361 && y <= 386) {
+					running = false;
+					return 3;
+				}
+				break;
+			}
 			break;
 		}
+		// xác định tọa độ
+		/*if (e.button.button == SDL_BUTTON_LEFT) {
+			int x = e.button.x;
+			int y = e.button.y;
+			cout << x << ' ' << y << endl;
+		}*/
 	}
 	const Uint8* state = SDL_GetKeyboardState(NULL);
 	if (state[SDL_SCANCODE_DOWN])
 		delay = 50;
+	return 0;
 }
 
 void Tetris::setRectPos(SDL_Rect& rect, int x, int y, int w, int h)
@@ -260,7 +391,7 @@ void Tetris::updateRender()
 		moveRectPos(destR, BlockW, ScreenH - (Lines + 1) * BlockH);
 		SDL_RenderCopy(render, blocks, &srcR, &destR);
 	}
-
+	text.RenderText(render, xp, yp);
 	SDL_RenderPresent(render);
 
 }

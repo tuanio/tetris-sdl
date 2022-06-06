@@ -1,0 +1,9 @@
+homescreen playgame [103, 151], [234, 247]
+homescreen help [117, 181], [280, 290]
+homescreen exit [101, 201], [318, 329]
+
+helpscreen exit [92, 203], [371, 428]
+
+resultscreen score [105], [260]
+resultscreen playagain [90, 204], [306, 326]
+resultscreen exit [111, 181], [361, 386]

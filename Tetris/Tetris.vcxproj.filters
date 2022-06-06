@@ -21,13 +21,42 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tetris.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="music.flac" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="img\background.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\blocks.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\end.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\hello.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\help.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="fonts\consolas.ttf" />
   </ItemGroup>
 </Project>

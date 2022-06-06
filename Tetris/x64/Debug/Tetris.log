@@ -1,0 +1,8 @@
+﻿  Tetris.cpp
+c:\users\nvatu\source\repos\tetris\tetris\tetris.cpp(353): warning C4805: '|=': unsafe mix of type 'bool' and type 'int' in operation
+c:\users\nvatu\source\repos\tetris\tetris\tetris.cpp(353): warning C4805: '|': unsafe mix of type 'bool' and type 'int' in operation
+c:\users\nvatu\source\repos\tetris\tetris\tetris.cpp(354): warning C4805: '|=': unsafe mix of type 'bool' and type 'int' in operation
+c:\users\nvatu\source\repos\tetris\tetris\tetris.cpp(354): warning C4805: '|': unsafe mix of type 'bool' and type 'int' in operation
+c:\users\nvatu\source\repos\tetris\tetris\tetris.cpp(355): warning C4805: '|=': unsafe mix of type 'bool' and type 'int' in operation
+c:\users\nvatu\source\repos\tetris\tetris\tetris.cpp(355): warning C4805: '|': unsafe mix of type 'bool' and type 'int' in operation
+  Tetris.vcxproj -> C:\Users\nvatu\source\repos\Tetris\x64\Debug\Tetris.exe

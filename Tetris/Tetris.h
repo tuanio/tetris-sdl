@@ -5,6 +5,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
+#include "Text.h"
 
 class Tetris
 {
@@ -36,9 +38,13 @@ public:
 
 	bool isvalid();
 
-	bool init(const char* title);
+	bool init();
+	void initHome();
+	void initHelp();
+	void initResultScreen();
+	void initGamePlay();
 	void nextTetrimino();
-	void handleEvents();
+	int handleEvents();
 	void setRectPos(SDL_Rect& rect, int x = 0, int y = 0, int w = BlockW, int h = BlockH);
 	void moveRectPos(SDL_Rect& rect, int x, int y);
 	bool gameplay();
@@ -54,6 +60,8 @@ private:
 	enum { ScreenW = 300, ScreenH = 480 };
 	enum { BlockW = 18, BlockH = 18 };
 	enum { Lines = 20, Cols = 10 };
+	enum { HomeScreen, GameScreen, HelpScreen, ResultScreen };
+	int currentScreen = HomeScreen;
 	SDL_Window* window = NULL;
 	SDL_Renderer* render = NULL;
 	SDL_Texture* background = NULL, *blocks = NULL;
@@ -74,6 +82,9 @@ private:
 	bool rotate = false;
 	unsigned int delay = 300;
 	Uint32 startTime = 0, currentTime = 0;
+	Text text;
+	TTF_Font* font = NULL;
+	int xp = 0, yp = 0;
 };
 
 

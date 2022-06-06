@@ -11,8 +11,8 @@ int main(int argc, char* argv[])
 	using namespace std;
 	//srand(time(0));
 	Tetris* tetris = new Tetris();
-	const char* title = "Tetris";
-	if (tetris->init(title))
+	bool gameOverFirstTime = true;
+	if (tetris->init())
 	{
 		while (tetris->isrunning())
 		{	
@@ -20,11 +20,12 @@ int main(int argc, char* argv[])
 			tetris->handleEvents();
 			bool isGameOver = tetris->gameplay();
 			if (isGameOver) {
-				const char* title = "Game Over";
-				char message[200];
-				sprintf_s(message, "Game is Over, you score is %d!!!", tetris->getScore());
-				SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, title, message, NULL);
-				break;
+				if (gameOverFirstTime)
+					tetris->initResultScreen();
+				gameOverFirstTime = false;
+			}
+			else {
+				gameOverFirstTime = true;
 			}
 			tetris->updateRender();
 		}
